@@ -13,7 +13,7 @@ from .serializer import ProductSerializer
 @api_view(['GET'])
 def getRoutes(request):
     routes = [
-        'api/products',
+        ' /api/products',
         '/api/products/create/',
         '/api/products/upload/',
         '/api/products/<id>/reviews/',
@@ -32,3 +32,15 @@ def getProducts(request):
     products = Product.objects.all() #data serialization
     serializer = ProductSerializer(products,many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getProduct(request,pk):
+    product = None
+    products = Product.objects.all()
+    serializer = ProductSerializer(products,many=True)
+    for i in products:
+        if i[serializer.data._id]==pk:
+            product = i
+            break
+    return Response(product)
