@@ -31,16 +31,21 @@ def getProducts(request):
 def getProducts(request):
     products = Product.objects.all() #data serialization
     serializer = ProductSerializer(products,many=True)
+    print(serializer.data)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
 def getProduct(request,pk):
     product = None
+    print(type(pk))
     products = Product.objects.all()
     serializer = ProductSerializer(products,many=True)
-    for i in products:
-        if i[serializer.data._id]==pk:
+    print(products)
+    for i in serializer.data:
+        if i['_id']==int(pk):
             product = i
+            print(product)
             break
+    print("value",product)
     return Response(product)
