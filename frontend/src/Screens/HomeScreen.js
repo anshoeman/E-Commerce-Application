@@ -4,6 +4,7 @@ import axios from "axios";
 import Product from "../components/Product";
 import { listProducts } from "../actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
+import Alert from 'react-bootstrap/Alert';
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
@@ -18,7 +19,7 @@ const HomeScreen = () => {
       {loading ? (
         <h2>Loading...</h2>
       ) : error ? (
-        <h3>{error}</h3>
+       <Alert variant="danger">{error}</Alert>
       ) : (
         <Row>
           {products.map((product) => {

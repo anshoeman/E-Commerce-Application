@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Button, Card } from "react-bootstrap";
 import Rating from "../components/Rating";
 
-
 import { listProductDetails } from "../actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 const ProductScreen = ({ match }) => {
@@ -12,7 +11,8 @@ const ProductScreen = ({ match }) => {
   useEffect(() => {
     dispatch(listProductDetails(id));
   }, []);
-  let product = {};
+  const productDetails = useSelector((state) => state.productDetails);
+  const { product } = productDetails;
   return (
     <div>
       <Link to="/" className="btn btn-light my-3">
@@ -20,7 +20,7 @@ const ProductScreen = ({ match }) => {
       </Link>
       <Row>
         <Col md={6}>
-          <Image src={product?.image} alt={product?.name} fluid />
+          <Image src={`http://localhost:8000/${product.image}`} alt={product?.name} fluid />
         </Col>
         <Col md={3}>
           <ListGroup variant="flush">

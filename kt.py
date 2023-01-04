@@ -40,7 +40,7 @@ class BFSInputWindow:
         graph = []
         for line in graph_str.split("\n"):
             # Split each line on the comma and add the resulting edge tuple to the graph list
-            edge = tuple(line.split(","))
+            edge = tuple(line.split("["))
             graph.append(edge)
 
         print(graph)
