@@ -3,21 +3,23 @@ from django.http import JsonResponse
 from .fake import products
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Product
-from .serializer import ProductSerializer
+from .models import Product, User
+from .serializer import ProductSerializer, UserSerializer, UserSerialzerWithToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-# Create your views here.
-# views will help in the writting of logics
-# these views will be regsitered in the urls.py file
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from django.contrib.auth.models import User
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
 
-        data['username'] = self.user.username
-        data['email'] = self.user.email
+        serializer = UserSerialzerWithToken(self.user).data
+
+        for k, v in serializer.items():
+            data[k] = v
         return data
 
 
@@ -44,12 +46,23 @@ def getRoutes(request):
 def getProducts(request):
     return JsonResponse(products, safe=False)
 
+# get product
+
 
 @api_view(['GET'])
 def getProducts(request):
     products = Product.objects.all()  # data serialization
     serializer = ProductSerializer(products, many=True)
     print(serializer.data)
+    return Response(serializer.data)
+
+
+# get users without isAuthenticated
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUsers(request):
+    users = User.objects.all()  # data serialization
+    serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
 
 
@@ -67,3 +80,11 @@ def getProduct(request, pk):
             break
     print("value", product)
     return Response(product)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUserProfile(request):
+    user = request.user
+    serializer = UserSerializer(user, many=False)
+    return Response(serializer.data)
