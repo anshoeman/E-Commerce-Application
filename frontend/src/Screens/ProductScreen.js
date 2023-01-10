@@ -20,7 +20,7 @@ const ProductScreen = ({ match }) => {
       </Link>
       <Row>
         <Col md={6}>
-          <Image src={`http://localhost:8000/${product.image}`} alt={product?.name} fluid />
+          <Image src={`http://localhost:8000/${product.image}`} alt={product?.name} fluid style={{'height':400}}/>
         </Col>
         <Col md={3}>
           <ListGroup variant="flush">
