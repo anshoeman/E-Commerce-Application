@@ -16,7 +16,7 @@ const HomeScreen = () => {
 
   return (
     <>
-      <Carousel style={{ marginTop: 60 }}>
+      <Carousel style={{ marginTop: 40 }}>
         {products.map((product) => {
           return (
             <Carousel.Item>

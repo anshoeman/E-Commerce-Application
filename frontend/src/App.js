@@ -5,6 +5,7 @@ import { Container } from "react-bootstrap";
 import HomeScreen from "./Screens/HomeScreen";
 import ProductScreen from "./Screens/ProductScreen";
 import LoginScreen from "./Screens/LoginScreen";
+import ProfileScreen from "./Screens/ProfileScreen";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import RegisterScreen from "./Screens/RegisterScreen";
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/login" element={<LoginScreen />} exact/>
             <Route path="/product/:id" element={<ProductScreen/>}/>
             <Route path='/register' element={<RegisterScreen/>}/>
+            <Route path='/profile' element={<ProfileScreen/>}/>
           </Routes>
         </Container>
       </main>

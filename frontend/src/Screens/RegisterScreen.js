@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link, redirect, useNavigate, useHistory } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
@@ -8,39 +7,42 @@ import { register } from "../actions/userActions";
 import FormContainer from "../components/FormContainer";
 
 const RegisterScreen = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name,setName] = useState("")
-  const [confirmpassword,setConfirmPassword] = useState("")
-  const [message,setMessage] = useState("")
-
+  const [name, setName] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [show, setShow] = useState(true);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
   const userRegister = useSelector((state) => state.userRegister);
   const { error, loading, userInfo } = userRegister;
 
-
-    if(userInfo){
-        navigate('/')
-    }
+  if (userInfo) {
+    navigate("/");
+  }
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("submmitted");
-    if(password!==confirmpassword)
-        setMessage('Password do not match')
-    else
-        dispatch(register(name,email, password));
+    if (password !== confirmpassword) setMessage("Password do not match");
+    else dispatch(register(name, email, password));
   };
 
   return (
     <FormContainer>
       <h1 style={{ marginTop: 20 }}>Sign Up</h1>
-      {error && <Alert variant="danger">{error}</Alert>}
+      {message && show ? (
+        <Alert dismissible onClose={() => setShow(false)} variant="danger">
+          {message}
+        </Alert>
+      ) : (
+        <></>
+      )}
       {loading && <h1>Loading</h1>}
       <Form onSubmit={submitHandler} style={{ marginTop: 20 }}>
         <Form.Group controlId="name" style={{ marginTop: 10 }}>
-          <Form.Label>UserName</Form.Label>
+          <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter username"
@@ -57,7 +59,7 @@ const RegisterScreen = () => {
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Form.Group controlId="password">
+        <Form.Group controlId="password" style={{ marginTop: 10 }}>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -66,11 +68,11 @@ const RegisterScreen = () => {
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Form.Group controlId="confirmPassword">
+        <Form.Group controlId="confirmPassword" style={{ marginTop: 10 }}>
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Enter Password"
+            placeholder="Cofirm Password"
             value={confirmpassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           ></Form.Control>
@@ -81,14 +83,11 @@ const RegisterScreen = () => {
       </Form>
       <Row className="py-2">
         <Col>
-          New Customer?
-          <Link
-            to={'/register'}
-          ></Link>
+          <Link to={"/login"} style={{textDecoration:'none',color:'white'}}>Already Have An Account?</Link>
         </Col>
       </Row>
     </FormContainer>
-  )
-}
+  );
+};
 
-export default RegisterScreen
+export default RegisterScreen;

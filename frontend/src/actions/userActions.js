@@ -5,6 +5,10 @@ import {
   USER_LOGOUT,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
+  USER_DETAILS_FAIL,
+  USER_REGISTER_FAIL
 } from "../constants/userConstants";
 import axios from "axios";
 
@@ -85,4 +89,38 @@ export const logout = () => (dispatch) => {
   dispatch({
     type: USER_LOGOUT,
   });
+};
+
+
+export const getUserDetails = (id) => async (dispatch,getState) => {
+  try {
+    dispatch({
+      type: USER_DETAILS_REQUEST,
+    });
+    const {
+      userLogin:{userInfo}
+    } = getState()//to check state of the user who are currently login
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization:`Bearer ${userInfo.token}`
+      },
+    };
+    const { data } = await axios.get(
+      `http://localhost:8000/api/users/${id}/`,
+      config
+    );
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
 };

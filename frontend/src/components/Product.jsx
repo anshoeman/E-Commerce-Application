@@ -10,7 +10,7 @@ const Product = ({product}) => {
             <Card.Img src={`http://localhost:8000/${product.image}`} height='240'/>
         </Link>
         <Card.Body>
-        <Link href={`/product/${product._id}`}>
+        <Link href={`/product/${product._id}`} style={{textDecoration:'none'}}>
            <Card.Title as="div">
             <strong>{product?.name}</strong>
            </Card.Title>

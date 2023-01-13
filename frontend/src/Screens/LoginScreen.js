@@ -52,7 +52,7 @@ const LoginScreen = ({ location, history }) => {
       </Form>
       <Row className="py-2">
         <Col>
-          <Link to={"/register"}> New Customer?</Link>
+          <Link to={"/register"} style={{textDecoration:'none',color:'white'}}> New Customer?</Link>
         </Col>
       </Row>
     </FormContainer>
