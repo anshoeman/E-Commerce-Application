@@ -3,9 +3,9 @@ import { Link, redirect, useNavigate, useHistory } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { Alert } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserDetails } from "../actions/userActions";
+import { getUserDetails, updateUserProfile } from "../actions/userActions";
 import FormContainer from "../components/FormContainer";
-
+import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 const ProfileScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,29 +22,49 @@ const ProfileScreen = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { success } = userUpdateProfile;
   useEffect(() => {
     if (!userInfo) navigate("/login");
     else {
-      if (!user || !user.name) {
+      if (!user || !user.name || success) {
+        dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails("profile"));
       } else {
         setName(user.name);
         setEmail(user.email);
       }
-
     }
-    console.log(user.name)
-  }, [userInfo,user]);
+    console.log(user.name);
+  }, [userInfo, user, dispatch, success]);
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("submmitted");
-    if (password !== confirmpassword) setMessage("Password do not match");
-    else console.log("Updateing....");
+    if (password !== confirmpassword) {
+      setMessage("Password do not match");
+      console.log("submmitted");
+    } else {
+      dispatch(
+        updateUserProfile({
+          id: user?._id,
+          name: name,
+          email: email,
+          password: password,
+        })
+      );
+      console.log("updated");
+    }
   };
   return (
     <Row>
       <Col md={3}>
-        <h2 style={{marginTop:20}}>User Profile</h2>
+        <h2 style={{ marginTop: 20 }}>User Profile</h2>
+        {message && show ? (
+        <Alert dismissible onClose={() => setShow(false)} variant="danger">
+          {message}
+        </Alert>
+      ) : (
+        <></>
+      )}
         <Form onSubmit={submitHandler} style={{ marginTop: 20 }}>
           <Form.Group controlId="name" style={{ marginTop: 10 }}>
             <Form.Label>Username</Form.Label>
@@ -88,7 +108,7 @@ const ProfileScreen = () => {
         </Form>
       </Col>
       <Col md={9}>
-        <h2 style={{marginTop:20}}>My Orders</h2>
+        <h2 style={{ marginTop: 20 }}>My Orders</h2>
       </Col>
     </Row>
   );
