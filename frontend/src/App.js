@@ -9,25 +9,30 @@ import ProfileScreen from "./Screens/ProfileScreen";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import RegisterScreen from "./Screens/RegisterScreen";
 import CartScreen from "./Screens/CartScreen";
+import ShippingScreen from "./Screens/ShippingScreen";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
 function App() {
   return (
     <BrowserRouter>
-    <div className="App">
-      <Header />
-      <main>
-        <Container className="py3">
-          <Routes>
-            <Route path="/" element={<HomeScreen />} exact/>
-            <Route path="/login" element={<LoginScreen />} exact/>
-            <Route path="/product/:id" element={<ProductScreen/>}/>
-            <Route path='/register' element={<RegisterScreen/>}/>
-            <Route path='/profile' element={<ProfileScreen/>}/>
-            <Route path="/cart/:id?" element={<CartScreen/>}/>
-          </Routes>
-        </Container>
-      </main>
-      <Footer />
-    </div>
+      <div className="App">
+        <Header />
+        <main>
+          <Container className="py3">
+            <Routes>
+              <Route path="/" element={<HomeScreen />} exact />
+              <Route path="/login" element={<LoginScreen />} exact />
+              <Route path="/product/:id" element={<ProductScreen />} />
+              <Route path="/register" element={<RegisterScreen />} />
+              <Route path="/profile" element={<ProfileScreen />} />
+              <Route path="/cart/:id?" element={<CartScreen />} />
+              <Route element={<PrivateRoute />}>
+                <Route path="/shipping" element={<ShippingScreen />} />
+              </Route>
+            </Routes>
+          </Container>
+        </main>
+        <Footer />
+      </div>
     </BrowserRouter>
   );
 }

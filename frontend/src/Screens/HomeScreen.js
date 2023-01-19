@@ -7,16 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Alert from "react-bootstrap/Alert";
 import Carousel from "react-bootstrap/Carousel";
 const HomeScreen = () => {
-  const dispatch = useDispatch();
-  const productList = useSelector((state) => state.productList);
-  const { products, loading, error } = productList;
+  const dispatch = useDispatch();//dispatch i want dispacth an action
+  const productList = useSelector((state) => state.productList);//select a state from the store
+  const { products, loading, error } = productList;//destructure
   useEffect(() => {
-    dispatch(listProducts());
+    dispatch(listProducts());//everytime i load i want to see
   }, []);
 
   return (
     <>
-      <Carousel style={{ marginTop: 40 }}>
+      {/* <Carousel style={{ marginTop: 40 }}>
         {products.map((product) => {
           return (
             <Carousel.Item>
@@ -33,7 +33,7 @@ const HomeScreen = () => {
             </Carousel.Item>
           );
         })}
-      </Carousel>
+      </Carousel> */}
       <h1 style={{ marginTop: 20 }}>Latest Product On Shopper</h1>
       {loading ? (
         <h2>Loading...</h2>
