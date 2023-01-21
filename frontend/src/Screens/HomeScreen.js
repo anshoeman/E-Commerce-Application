@@ -16,7 +16,7 @@ const HomeScreen = () => {
 
   return (
     <>
-      {/* <Carousel style={{ marginTop: 40 }}>
+      <Carousel style={{ marginTop: 20 }} pause='hover' className="bg-dark">
         {products.map((product) => {
           return (
             <Carousel.Item>
@@ -24,7 +24,7 @@ const HomeScreen = () => {
                 className="d-block w-100"
                 src={`http://localhost:8000/${product.image}`}
                 alt="First slide"
-                style={{ height: 350, borderRadius: 4 }}
+                style={{ height: 350, borderRadius: 4 ,objectFit:'cover'}}
               />
               <Carousel.Caption>
                 <h3>{product?.name}</h3>
@@ -33,7 +33,7 @@ const HomeScreen = () => {
             </Carousel.Item>
           );
         })}
-      </Carousel> */}
+      </Carousel>
       <h1 style={{ marginTop: 20 }}>Latest Product On Shopper</h1>
       {loading ? (
         <h2>Loading...</h2>

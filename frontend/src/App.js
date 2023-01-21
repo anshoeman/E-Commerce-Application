@@ -11,6 +11,8 @@ import RegisterScreen from "./Screens/RegisterScreen";
 import CartScreen from "./Screens/CartScreen";
 import ShippingScreen from "./Screens/ShippingScreen";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import PaymentScreen from "./Screens/PaymentScreen";
+import PlaceOrderScreen from "./Screens/PlaceOrderScreen";
 function App() {
   return (
     <BrowserRouter>
@@ -27,6 +29,12 @@ function App() {
               <Route path="/cart/:id?" element={<CartScreen />} />
               <Route element={<PrivateRoute />}>
                 <Route path="/shipping" element={<ShippingScreen />} />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                <Route path="/payment" element={<PaymentScreen />} />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                <Route path="/placeorder" element={<PlaceOrderScreen />} />
               </Route>
             </Routes>
           </Container>
