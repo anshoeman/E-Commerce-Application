@@ -4,6 +4,7 @@ import {
   CART_SAVE_SHIPPING_ADDRESS,
   CART_RESET,
   CART_SAVE_PAYMENT_METHOD,
+  CART_CLEAR_ITEMS
 } from "../constants/cartConstants";
 
 export const cartReducers = (
@@ -43,6 +44,11 @@ export const cartReducers = (
         ...state,
         paymentMethod: action.pyalod,
       };
+    case CART_CLEAR_ITEMS:
+      return{
+        ...state,
+        cartItems:[]
+      }
     default:
       return state;
   }

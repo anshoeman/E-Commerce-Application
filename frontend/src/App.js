@@ -13,6 +13,7 @@ import ShippingScreen from "./Screens/ShippingScreen";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import PaymentScreen from "./Screens/PaymentScreen";
 import PlaceOrderScreen from "./Screens/PlaceOrderScreen";
+import OrderScreen from "./Screens/OrderScreen";
 function App() {
   return (
     <BrowserRouter>
@@ -35,6 +36,9 @@ function App() {
               </Route>
               <Route element={<PrivateRoute />}>
                 <Route path="/placeorder" element={<PlaceOrderScreen />} />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                <Route path="/order/:id" element={<OrderScreen />} />
               </Route>
             </Routes>
           </Container>

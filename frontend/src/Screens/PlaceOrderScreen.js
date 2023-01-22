@@ -145,10 +145,10 @@ const PlaceOrderScreen = () => {
                         </Row>
                   
                     </ListGroup.Item>
-                    <ListGroup.Item>
+                    {/* <ListGroup.Item>
                        {error&&<Alert variant="danger">{error}</Alert>}
                   
-                    </ListGroup.Item>
+                    </ListGroup.Item> */}
                     <ListGroup.Item>
                        <Button
                        type="button"
