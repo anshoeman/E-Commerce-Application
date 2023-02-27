@@ -8,6 +8,7 @@ const Header = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const dispatch = useDispatch()
   const { userInfo } = userLogin;
+  // console.log(userInfo.isAdmin)
   const logoutHandler = ()=>{
     dispatch(logout())
   }
@@ -41,6 +42,19 @@ const Header = () => {
                     <i className="fa-sharp fa-solid fa-user"></i>Login
                   </Nav.Link>
                 </LinkContainer>
+              )}
+              {userInfo&&userInfo.isAdmin && (
+                 <NavDropdown title='Admin' id="admin-menu">
+                 <LinkContainer to="/admin/userList">
+                   <NavDropdown.Item>Users</NavDropdown.Item>
+                 </LinkContainer>
+                 <LinkContainer to="/admin/products">
+                   <NavDropdown.Item>Products</NavDropdown.Item>
+                 </LinkContainer>
+                 <LinkContainer to="/admin/orderList">
+                   <NavDropdown.Item>Orders</NavDropdown.Item>
+                 </LinkContainer>
+               </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>

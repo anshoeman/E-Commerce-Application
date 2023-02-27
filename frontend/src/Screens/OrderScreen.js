@@ -15,13 +15,14 @@ import CheckOutState from "../components/CheckOutState";
 import { useNavigate } from "react-router-dom";
 import {
   createOrder,
+  deliverOrder,
   getOrderDetails,
   payOrder,
 } from "../actions/orderActions";
 // sb-hbgt023980804@personal.example.com
 import { PayPalButton } from "react-paypal-button-v2";
 import { ORDER_CREATE_RESET } from "../constants/orderConstants";
-import { ORDER_PAY_RESET } from "../constants/orderConstants";
+import { ORDER_PAY_RESET,ORDER_DELIVER_RESET } from "../constants/orderConstants";
 // Ab2ERx3ovgWIOyKuY7bXdn5McWE64_a_FVthzpAZDJNNITKSq3eT2wfgbm1HQraZClDM5jbYIWfcy2An
 
 const OrderScreen = () => {
@@ -35,9 +36,16 @@ const OrderScreen = () => {
 
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
+
+  const orderDelivery = useSelector((state) => state.orderDelivery);
+  const {success: successDeliver } = orderDelivery;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   useEffect(() => {
-    if (!order || successPay || order._id !== Number(id)) {
+    if (!order || successPay || order._id !== Number(id) || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({type:ORDER_DELIVER_RESET})
       dispatch(getOrderDetails(id));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -46,7 +54,7 @@ const OrderScreen = () => {
         setSdkReady(true);
       }
     }
-  }, [order, id, successPay]);
+  }, [order, id, successPay,successDeliver]);
 
   const addPayScript = () => {
     const script = document.createElement("script");
@@ -69,6 +77,10 @@ const OrderScreen = () => {
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(id, paymentResult));
+  };
+
+  const deliverHandler = (paymentResult) => {
+    dispatch(deliverOrder(order));
   };
   return loading ? (
     <h2>Loading...</h2>
@@ -106,7 +118,7 @@ const OrderScreen = () => {
                 {order?.shippingAddress.country}
               </p>
               {order?.isDelivered ? (
-                <Alert variant="success">Delivered on {order?.paidAt}</Alert>
+                <Alert variant="success">Delivered on {order?.deliveredAt?.substring(0,10)}</Alert>
               ) : (
                 <Alert variant="danger">The Order was not Delivered</Alert>
               )}
@@ -208,6 +220,18 @@ const OrderScreen = () => {
                 </ListGroup.Item>
               )}
             </ListGroup>
+            {userInfo && userInfo.isAdmin &&order.isPaid && !order.isDelivered&&(
+              <ListGroup.Item>
+                <Button
+                type="button"
+                className="btn btn-block"
+                onClick={deliverHandler}
+                style={{width:'100%'}}
+                >
+                  Mark As Delivered
+                </Button>
+              </ListGroup.Item>
+            )}
           </Card>
         </Col>
       </Row>
